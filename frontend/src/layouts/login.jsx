@@ -1,13 +1,15 @@
-  import React, { useState } from 'react';
+import React, { useState } from 'react';
   import { Link } from 'react-router-dom';
-  import axios from 'axios';
+  import { useAuth } from '../contexts/AuthContext.jsx';
   import { validateEmail, validatePassword } from '../utils/validation';
+
 
   const Login = () => {
     const [formData, setFormData] = useState({
       email: '',
       password: '',
     });
+    const { login } = useAuth();
 
     const [loading, setLoading] = useState(false);
     const [validationErrors, setValidationErrors] = useState({});
@@ -37,12 +39,7 @@
       setLoading(true);
 
       try {
-        const res = await axios.post('http://localhost:5000/api/auth/login', formData);
-        localStorage.setItem('token', res.data.token);
-
-        setTimeout(() => {
-          window.location.href = '/';  
-        }, 1500);
+        await login(email, password);
       } finally {
         setLoading(false);
       }

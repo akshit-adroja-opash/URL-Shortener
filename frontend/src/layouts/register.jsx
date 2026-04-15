@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './register.css';
+import api from '../utils/apiRequest';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -36,7 +36,7 @@ const Register = () => {
 
     try {
       // Changed to standard JSON request since we are no longer sending files
-      const response = await axios.post('http://localhost:5000/api/auth/register', {
+      const response = await api.post('/auth/register', {
         name: formData.name,
         email: formData.email,
         password: formData.password

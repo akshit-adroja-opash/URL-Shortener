@@ -33,7 +33,7 @@
     box-sizing: border-box;
 }
 
-button {
+.auth-form button {
     width: 100%;
     padding: 10px;
     background-color: #007bff;
@@ -47,7 +47,7 @@ button {
     align-items: center;
 }
 
-button:disabled {
+.auth-form button:disabled {
     background-color: #ccc;
 }
 
@@ -75,16 +75,16 @@ button:disabled {
     text-align: center;
 }
 
-p {
+.auth-form p {
     text-align: center;
     margin-top: 20px;
 }
 
-p a {
+.auth-form p a {
     color: #007bff;
     text-decoration: none;
 }
 
-p a:hover {
+.auth-form p a:hover {
     text-decoration: underline;
 }
