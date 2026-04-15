@@ -1,23 +1,27 @@
 const jwt = require('jsonwebtoken');
+const AppError = require('../utils/AppError');
 
 const auth = (req, res, next) => {
-  console.log('Auth middleware called for path:', req.path);
-  const token = req.header('x-auth-token');
-  console.log('Token present:', !!token);
+  let token = req.header('x-auth-token') || req.header('Authorization');
 
   if (!token) {
-    console.log('No token provided');
-    return res.status(401).json({ message: 'No token, authorization denied' });
+    return next(new AppError(401, 'Authentication required', 'AUTH_REQUIRED'));
+  }
+
+  if (token.startsWith('Bearer ')) {
+    token = token.slice(7);
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    console.log('Token verified for user:', decoded.id);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'URL-shortener-secret');
+    req.user = {
+      id: decoded.id,
+      email: decoded.email,
+      name: decoded.name,
+    };
     next();
-  } catch (error) {
-    console.log('Token verification failed:', error.message);
-    res.status(401).json({ message: 'Token is not valid' });
+  } catch (err) {
+    next(new AppError(401, 'Invalid or expired token', 'INVALID_TOKEN'));
   }
 };
 

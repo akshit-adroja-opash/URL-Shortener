@@ -41,7 +41,7 @@
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
 }
 
-button {
+.auth-form button {
     width: 100%;
     padding: 12px;
     background-color: #007bff;
@@ -57,11 +57,11 @@ button {
     align-items: center;
 }
 
-button:hover {
+.auth-form button:hover {
     background-color: #0056b3;
 }
 
-button:disabled {
+.auth-form button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
@@ -77,20 +77,20 @@ button:disabled {
     font-size: 14px;
 }
 
-p {
+.auth-form p {
     text-align: center;
     margin-top: 20px;
     font-size: 14px;
     color: #666;
 }
 
-p a {
+.auth-form p a {
     color: #007bff;
     text-decoration: none;
     font-weight: bold;
 }
 
-p a:hover {
+.auth-form p a:hover {
     text-decoration: underline;
 }
 

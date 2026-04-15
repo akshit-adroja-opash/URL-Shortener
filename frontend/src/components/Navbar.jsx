@@ -1,44 +1,14 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import './navbar.css'
+import { useAuth } from '../contexts/AuthContext.jsx';
+import './navbar.css';
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
+  const { user, isAuthenticated, logout, loading } = useAuth();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const updateAuthState = () => {
-      if (token) {
-        try {
-          const payload = JSON.parse(atob(token.split('.')[1]));
-          setUser(payload);
-          setIsLoggedIn(true);
-        } catch (err) {
-          localStorage.removeItem('token');
-          setIsLoggedIn(false);
-        }
-      } else {
-        setIsLoggedIn(false);
-        setUser(null);
-      }
-    };
-
-    updateAuthState();
-
-    const handleStorageChange = () => updateAuthState();
-    window.addEventListener('storage', handleStorageChange);
-    
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
-    setUser(null);
-    window.location.href = '/login';
-  };
+  if (loading) {
+    return null;
+  }
 
   return (
     <nav className="navbar">
@@ -47,10 +17,10 @@ const Navbar = () => {
           URL Shortener
         </Link>
         <div className="nav-menu">
-          {isLoggedIn ? (
+          {isAuthenticated ? (
             <>
               <span>Welcome, {user?.name || user?.email}</span>
-              <button onClick={handleLogout} className="logout-btn">
+              <button onClick={logout} className="logout-btn">
                 Logout
               </button>
             </>
